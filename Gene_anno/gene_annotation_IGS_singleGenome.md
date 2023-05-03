@@ -150,7 +150,7 @@ cat /global/cfs/cdirs/plantbox/annotation/Bhybridum/v2.0/annotv2.1/hiConf.transc
 
 ```
 
-#### Run IGC
+### 3. Run IGC
 #copy Tomas's configure file into my annotation dir
 
 ```
@@ -204,3 +204,5 @@ Kill the job
 ```
 kill -9 jobID
 ```
+
+### 4. mannually check and filter
