@@ -206,3 +206,207 @@ kill -9 jobID
 ```
 
 ### 4. mannually check and filter
+
+#### 1) Creat the groundtrueth dataset with [liftoff](https://github.com/agshumate/Liftoff).
+
+I will use the wdl scripts Tomas shared and run this in the JAW
+
+#set up the jaws files:
+```
+cp /global/cfs/projectdirs/jaws/jaws-prod/jaws.conf ~/jaws.conf
+chmod 600 ~/jaws.conf
+```
+
+#add the token:
+```
+vi ~/jaws.conf
+Token = zKWpQQtbIMrAxHZ5sJpU-Od74UYa6G9vLbVVbkzUnGYB6dDynfkul9hE1NPwjWckBgHMMSvAXoVJwxqJqi-Gyini6ECKfI7vhlllGGf0lEWrYUgrZWbJgUHTmj-w_KbpuLWoHl13vgolme6eVzJI_iHhxSQYHAIvieIg1YLTmw
+```
+
+#Put those content in the `/global/u2/l/llei2019/plantbox/annotation/hybridum/annotation/3-7-2/v1.0t/inputs.jason`
+```
+{
+  "liftoff.processingScript": "/global/u2/l/llei2019/plantbox/annotation/hybridum/annotation/3-7-2/v1.0t/computePeptideLengthFractions.py",
+  "liftoff.referenceFasta": "/global/cfs/cdirs/plantbox/annotation/Bhybridum/v2.0/Brachypodium_hybridum_var_ABR113.mainGenome.fasta",
+  "liftoff.referenceGff": "/global/cfs/cdirs/plantbox/annotation/Bhybridum/v2.0/annotv2.1/DATA/Bhybridumvar.ABR113v2.1.gene_exons.gff3",
+  "liftoff.targetFasta": "/global/cfs/cdirs/plantbox/llei/annotation/hybridum/annotation/3-7-2/v1.0t/Brachypodium_hybridum_var_3-7-2.fasta",
+  "liftoff.n_cpu": "32",
+  "liftoff.outputName": "/global/cfs/cdirs/plantbox/annotation/Bhybridum/v2.0/evaluate_3_7_2.gff3"
+}
+```
+
+```
+cd /global/u2/l/llei2019/plantbox/annotation/hybridum/annotation/3-7-2/v1.0t/
+jaws inputs liftoff.wdl
+```
+
+#run job
+```
+jaws submit liftoff.wdl inputs.json cori
+
+WARNING: your docker image python is not using a sha tag. call-caching will not be enabled for task: processResult.
+WARNING: The runtime parameter "time" was not found in the task "lift". You should consider adding it if you ever want to share your WDL.
+WARNING: The runtime parameter "time" was not found in the task "processResult". You should consider adding it if you ever want to share your WDL.
+Copying Bhybridumvar.ABR113v2.1.gene_exons.gff3
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 113M/113M [00:00<00:00, 527MB/s]
+Copied 112912815 bytes in 0.2 seconds.
+Copying Brachypodium_hybridum_var_3-7-2.fasta
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 531M/531M [00:00<00:00, 680MB/s]
+Copied 530948739 bytes in 0.8 seconds.
+Copying computePeptideLengthFractions.py
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████| 2.79k/2.79k [00:00<00:00, 1.03MB/s]
+Copied 2786 bytes in 0.0 seconds.
+Copying Brachypodium_hybridum_var_ABR113.mainGenome.fasta
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 537M/537M [00:00<00:00, 621MB/s]
+Copied 537128886 bytes in 0.9 seconds.
+{
+    "run_id": 64099
+}
+(cori-prod) 
+
+```
+
+#check status
+```
+jaws status 64099
+
+jaws log 64099
+#STATUS_FROM     STATUS_TO        TIMESTAMP            COMMENT  
+created          upload queued    2023-05-10 10:48:10           
+upload queued    upload complete  2023-05-10 10:48:10           
+upload complete  ready            2023-05-10 10:48:39           
+ready            submitted        2023-05-10 10:48:45           
+submitted        queued           2023-05-10 10:48:55           
+queued           running          2023-05-10 10:49:26           
+(cori-prod) 
+```
+
+#get the output
+```
+jaws get 64099 /global/u2/l/llei2019/plantbox/annotation/hybridum/annotation/3-7-2/v1.0t
+
+```
+
+#I can get the path of the output:
+
+`/global/cfs/cdirs/plantbox/llei/annotation/hybridum/annotation/3-7-2/v1.0t/annotv1.0t/DATA/Bhybridumvar.3-7-2v1.1.gene_exons.gff3`
+
+`/global/cfs/cdirs/plantbox/annotation/Bhybridum/v2.0/evaluate_3_7_2.gff3`
+
+
+#### 2) Compare my results with the groundtruth with [gffcompare](https://github.com/gpertea/gffcompare)
+
+```
+git clone https://github.com/gpertea/gffcompare
+
+cd /some/build/dir
+  git clone https://github.com/gpertea/gffcompare
+  cd gffcompare
+  make release
+
+git clone https://github.com/gpertea/gclib.git
+
+  make release
+
+./gffcompare -R -r /global/cfs/cdirs/plantbox/llei/annotation/hybridum/annotation/3-7-2/v1.0t/annotv1.0t/DATA/Bhybridumvar.3-7-2v1.1.gene_exons.gff3 -o IGC_vs_liftoff_cmp  /global/cfs/cdirs/plantbox/annotation/Bhybridum/v2.0/evaluate_3_7_2.gff3
+  75445 reference transcripts loaded.
+  26 duplicate reference transcripts discarded.
+  75079 query transfrags loaded.
+```
+
+
+```
+#Summary for dataset: /global/cfs/cdirs/plantbox/annotation/Bhybridum/v2.0/evaluate_3_7_2.gff3 
+#     Query mRNAs :   75079 in   53222 loci  (60059 multi-exon transcripts)
+#            (11768 multi-transcript loci, ~1.4 transcripts per locus)
+# Reference mRNAs :   63643 in   50409 loci  (53440 multi-exon)
+# Super-loci w/ reference transcripts:    49144
+#-----------------| Sensitivity | Precision  |
+        Base level:    89.9     |    83.5    |
+        Exon level:    78.0     |    73.1    |
+      Intron level:    93.2     |    90.8    |
+Intron chain level:    67.0     |    59.6    |
+  Transcript level:    65.6     |    55.6    |
+       Locus level:    75.9     |    71.7    |
+
+     Matching intron chains:   35810
+       Matching transcripts:   41745
+              Matching loci:   38267
+
+          Missed exons:    7789/286167  (  2.7%)
+           Novel exons:   15198/316923  (  4.8%)
+        Missed introns:    8362/227866  (  3.7%)
+         Novel introns:   11893/234015  (  5.1%)
+           Missed loci:       0/50409   (  0.0%)
+            Novel loci:    3178/53222   (  6.0%)
+
+ Total union super-loci across all input datasets: 52322 
+75079 out of 75079 consensus transcripts written in IGC_vs_liftoff_cmp.annotated.gtf (0 discarded as redundant)
+
+```
+
+
+#### 3)Then load the "evaluate_3_7_2.gff3" to the Jbrowser
+```
+Firstly download the file to the local computer
+
+Then open the Jbrowser
+
+The Jbrowse is here  https://phytozome-next.jgi.doe.gov/jbprivate/index.html?data=genomes/Bhybridumvar372v1_1
+12:13
+user/pass is brachys_v2/brachypodiums_genepred
+
+
+Then click the file and open track file of the liftoff uotput and check:
+
+/global/u2/l/llei2019/plantbox/annotation/hybridum/annotation/3-7-2/v1.0t/annotv1.0t/lowQ.defaultParams.plus.rRNA.simple.repetitive.tr.txt
+
+```
+
+```
+#Tomas suggested that 
+
+Looks reasonable. You have 0% missed loci and 6% novel loci. The novel loci should ideally mostly correspond to the low confidence genes you will filtering out
+12:47
+you can also try to do this comparison for coding exons only (CDS) because right now, it includes UTRs which can be very variable.
+12:48
+to do that, just remove the “exon” features from gff, keep only “CDS” features.
+12:48
+But all that’s optional. Up to you how much you want to inspect this set.
+```
+
+#Then Tomas suggested use the cds to compare 
+
+```
+./gffcompare -R -r /global/u2/l/llei2019/plantbox/annotation/hybridum/annotation/3-7-2/v1.0t/annotv1.0t/DATA/CDS_hybridumvar.3-7-2v1.1.gene_exons.gff3 -o IGC_vs_liftoff_cmp_cds  /global/u2/l/llei2019/plantbox/annotation/hybridum/annotation/3-7-2/v1.0t/CDS_evaluate_3_7_2.gff3
+
+
+#= Summary for dataset: /global/u2/l/llei2019/plantbox/annotation/hybridum/annotation/3-7-2/v1.0t/CDS_evaluate_3_7_2.gff3 
+#     Query mRNAs :   75079 in   53222 loci  (60063 multi-exon transcripts)
+#            (11768 multi-transcript loci, ~1.4 transcripts per locus)
+# Reference mRNAs :   63643 in   50409 loci  (53440 multi-exon)
+# Super-loci w/ reference transcripts:    49144
+#-----------------| Sensitivity | Precision  |
+        Base level:    89.9     |    83.5    |
+        Exon level:    78.0     |    73.1    |
+      Intron level:    93.2     |    90.8    |
+Intron chain level:    67.0     |    59.6    |
+  Transcript level:    65.6     |    55.6    |
+       Locus level:    75.9     |    71.7    |
+
+     Matching intron chains:   35808
+       Matching transcripts:   41743
+              Matching loci:   38265
+
+          Missed exons:    7791/286167  (  2.7%)
+           Novel exons:   15207/316947  (  4.8%)
+        Missed introns:    8361/227866  (  3.7%)
+         Novel introns:   11900/234024  (  5.1%)
+           Missed loci:       0/50409   (  0.0%)
+            Novel loci:    3178/53222   (  6.0%)
+
+ Total union super-loci across all input datasets: 52322 
+75079 out of 75079 consensus transcripts written in IGC_vs_liftoff_cmp_cds.annotated.gtf (0 discarded as redundant)
+
+```
+
