@@ -1,0 +1,187 @@
+##master=~/saps/scripts/config/uPERTRAN.conf
+
+mail_from = lilei@lbl.gov
+mail_to = lilei@lbl.gov
+
+##uncomment on cori
+##or pass these as -ap key=val, quote val if it is multi words on command line
+#whole_node = 32
+#farm_option = constraint=haswell qos=genepool account=plant
+#disable_hyper_threading = 1
+
+##check farm_host below for site with >1 farms
+
+##uncomment for perlmutter
+farm_option = constraint=cpu qos=regular account=m342
+disable_hyper_threading = 1
+
+saps_hash = {
+	  ##must have correct site: currently support: jgi (nersc), igb
+	  site=>'jgi',
+
+	  ##change to proper farm: denovo/cori:SLURM, and queue (genepool: normal.c, denovo: production, cori: jgi)
+	  ##and on cori, there must be even more parameters specified in analysis parameter: farm_option
+	  farm=>{default=>"SLURM"},
+	  #sure to set correct farm host
+	  farm_host=>{igb=>'dori',jgi=>"perlmutter"},
+	  ##change to proper queue: ignored for cori, production for denovo (subject to change)
+	  queue=>{igb=>'jgi_normal',jgi=>"production"},
+	  projectname=>{igb=>'wcplant',jgi=>'plant',cig=>''},
+
+	  ##example of batch_params value: TA_meta:spid:114534 TA_meta:spid:119835
+	  batch_params=>'TA_meta:spid:1386228',
+	  common_name=>'Bstat7',
+	  ##could use a larger intron cutoff and use 99.99% intron len as est_intron_len for gene call
+	  ##should be larger for big genomes like gymnosperm, larger intron will use more ram!
+          intron_len=>30000,
+          paired=>1,
+	  stranded=>1,
+	  ##this should be default unless it is NOT dUPT protocol
+	  #this means first mate (single end read) is anti-sense (reverse completement of mRNA)
+	  firstReadStrandIsmRNA=>0,
+
+	  #increase this for polypoid genome
+	  n_hit=>8, # how many hits to the genome, rejected if more than this many hits in the genome
+
+	  #make sure fastq quality is really phred 33 (Illumina 1.8) to set below to true (1), otherwise, pipeline will auto detect
+	  q_is_phred33=>0,
+	  
+	  #only file name and must be under workdir OR full path
+	  genome=>'../Brachypodium_hybridum_var_Bsta7.fasta',
+
+	  #full path
+	  read_root=>'/global/cfs/cdirs/plantbox/llei/annotation/hybridum/transcriptomes/Illumina/Bstat7',
+	  ##user scratch: dori=${JGI_SCRATCH}/${USER}, perlmutter=${PSCRATCH}, cori=${CSCRATCH}
+	  workdir=>'${PSCRATCH}/Bstat7/pertran', #must be distinct for each run to avoid file/dir mixup
+	  resultdir=>'./results',
+	  bam2resultdir=>0, #default to workdir so purging is possible, change to 1 if will do differential expression analysis!
+	  ##bam2resultdir take precedence over bamdir
+
+	  ##if want to tape gcomb dir content, it should be specific to an organism and assembly-version (specific to this pertran run!) with a common root like pertranBAM for all bam archive on tape
+	  hpss_bam_root=>'pertranBAM/Bstat7/v1.0',
+
+	  #for cases where some trimming done per fastq file. Do not merge diff length fastq and use this option!
+	  #this is used for estimate read length for various things.
+	  variable_length_per_file=>0,
+
+	  #for non interleave, pair is 1 or 2 in file, set it to 0 if pair is F or R instead
+	  #no effect if interleave is 1 (pair in one file)
+	  pair_is_1_or_2=>1,
+
+	  #mates of paired-end in one file
+	  #when 2 mates/ends in 2 separate files, change this to 0 and be sure wild card in reads below will not get same fq files in >1 tissues
+	  interleave=>1,
+
+	  #reads can be file pattern or a single file, mates must be interleaved in one file for paired-end
+	  #value is a hash: key is tissue/epxeriment name, value is arrayref of fastq files: a file full path must be read_root/fastq-file
+	  #first level can NOT have >10 keys, to get around the limitation, value can be 2 level hash to group data
+	  #when having 2 level hash, the second level must be the one for differential expression
+	  #second level key must be unique throughout as the key is part of some analyses name which must be unique
+	  #if your key has non-alphabet character, single quote key like you would do when write perl hash data structure
+	  reads=>{
+          leaf_tissue_control=>[qw(NNPBS.*.fastq.gz NNPBT.*.fastq.gz NNPBU.*.fastq.gz NNPBW.*.fastq.gz)],
+          leaf_tissue_N_deficit=>[qw(NNPBX.*.fastq.gz NNPBY.*.fastq.gz NNPBZ.*.fastq.gz NNPCA.*.fastq.gz)],
+          leaf_tissue_P_deficit=>[qw(NNPCB.*.fastq.gz NNPCC.*.fastq.gz NNPCG.*.fastq.gz NNPCH.*.fastq.gz)],
+      },
+	  #2 level hash reads examaple:
+	  #reads=>{root_9_19=>{root_9=>[qw(fastq-files)],
+	  #	               root_19=>[qw(fastq-files)]},
+	  #        stem=>{stem=>[qw(...)]},
+          #        ...
+	  #       },
+
+	  #read contig/pileup gff files from other PERTRAN runs to sum up expression level, it can be space-separate list
+	  #in other words, add express from other run(s) to this run (analysis name: pileupreadcontig)
+	  #after adding, reconfig, redo (pileupreadcontig) and run to get new pileup gff (pileupreadcontigCombined*), bedgraph and bigwig
+	  additional_readcontig_gff=>'',
+
+### less common options or need to change below ####
+
+	  filter_out_bqal=>17, #0 means to not to trim and filtering, default is 3 (phred score), set higher like 17 for more aggressive read trimming
+	  firstReadStrandIsmRNA=>0,#valid for stranded paired-end, 0 = dUTP protocol/similar protocol, 0 = only mRNA reverse complement (cDNA) sequenced
+
+    	  #paire-end: inner distance b/n 2 reads in transcriptome space
+          # almost always leave as 0 for modern long reads
+#    	  maxgaplength=>0,
+    	  threshold=>1.5,
+	  mingappedintrondepth=>5, #increase it for better specificity if lots of reads per sample/tissue, doesn't apply if maxgaplength=0
+    	  minsplicedintrondepth=>2, #increase it for better specificity if lots of reads per sample/tissue
+    	  minmutantsplicedintrondepth=>5,
+	  #when assembly by tissue/sample, need to have higher threshold
+	  minsplicedintrondepth_in_all_assembly=>0, #use default: 1.8 * minsplicedintrondepth
+    	  mingappedintrondepth_in_all_assembly=>0, #use default: 1.8 * mingappedintronthreshold
+    	  #need to change according to your genome, and this is for assembling, chlamy has 5 bp exon in CDS
+    	  minexonlength=>18,#99.6% 18, 99% of v42 is 27, 98% 37 in from
+	  #for gsnap parameters
+	  min_hsp_len=>18,
+
+	  #non 0 to trigger realignment to possible reduce intron size
+	  #small hsp that could be coming from neighbouring tandem duplication and is short
+	  #looks for exact match at shorter distance
+	  #bigger hsp_len_to_realign and/or smaller min_intron_len_to_realign triggers more realignment
+	  #in expense of more compute cycle/time
+	  hsp_len_to_realign=>20, 
+	  min_intron_len_to_realign=>800, #no effect unless hsp_len_to_realign
+
+	  #no assembly but cuffdiff if set to 1, must have >1 tissues(libs/samples)
+	  cuffdiff_only=>0,
+	  #compute differential expression using cuffdiff, gene model GFF3 must have exon feature: pass in -gff3 -wantexon to PAC2_0 GFF exportor script
+	  genemodel_gff3=>'',
+
+	  #space separated list of tissue names not in differentail expression calculation
+	  exclude_tissue=>'',
+
+	  #non-default key must be full path! not needed to change if gzip or bzip2 files
+	  #please do not use multi thread gzip as default as we are doing multipe processes of splitting reads (one per sample)
+	  #use pigz IFF 4*n_tissue < 16
+	  uncompress_command=>{default=>''}, #/usr/common/jgi/utilities/pigz/2.3/bin/unpigz -p 4 -c
+
+	  #say something about read source like lib name, e.g. {'aFastqFileName'=>'lib:PGCZ'}
+	  #if fastq came from pooled library, USE pooled library name
+	  #as only pooled library name can be queried in JGI RDC report
+	  #read-file must be the same as what is speced in reads hash above, not all fastq need provenance
+	  #default would be lib:hash-key from reads hash above, 'lib' default came from samep_type below, change it if needed
+	  read_provenance=>{},
+	  sample_type=>'lib',#use for default provenance, can be SM for sample
+
+	  #instead of read_provenance, use below to tell if and which key level (1 or 2) is lib name
+	  #if so, pipeline will make up lib:libName as input_provenance (leave read_provenance above as is!)
+	  #must have correct value (number of hash level in reads hash) if not default: 0
+	  readhash_keylevel4lib=>0, #no default provenance from reads hash
+
+#normally these optons should not be changed
+	  min_align_id=>0.95, #lower for cross strain reads
+	  minmapq=>1, #gsnap make map score 1 if num of hits eq n_hit
+	  minbaseq=>17, #for calculating high quality read seg length which is used in gsnap SAM parsing/map filtering
+
+	  ##switch back to older gsnap (version 2013-09-30) as new one found fewer splice sites (frog one lane 75 BP, 1M reads less (15 vs 16, 8% less) and 1M splice-site less (3 vs 4, 25% less)
+	  ##same results: 15M reads aligned, 3M spliced alignments by 2017-03-17 GSNAP
+	  ##old one has read length 250 limit and some newer one may have longer read handling
+	  #to use newer gsnap, use additional_gsnap_options (2 option below is default when gsnap is newer version and auto set) and change gsnap_bin_dir and path_plus
+	  additional_gsnap_options=>'',#--use-shared-memory=0 --use-sarray=0',
+
+	  ##set in common_saps_hash.conf, change when needed, specific for a farm cluster
+	  #pstaging_root=>{jgi=>'${PSCRATCH}/pstaging'},
+
+
+	  ##WARNING: for dev only to test if new version is better
+#	  ##soybean (250 BP) test: 16% less splice sites, 4% less reads aligned, introns comparing to existing gene: few more intron but missed more as well
+#	  ##additional_gsnap_options is a must only for new gsnap, 2016-09-20 and going forward, 2 option below is default when gsnap is newer version and auto set
+#	  additional_gsnap_options=>'--use-shared-memory=0 --use-sarray=0',
+#	  ##change gsnap_bin_dir and path_plus in tandem!!
+#	  large genome may need to use gmap-2017-11-15 version, but not gmap-2019-09-12 version as it uses even more ram and it can not do 44G pine genome
+#	  gsnap_bin_dir=>{jgi=>'\$saps_hash(script_root,\$saps_hash(site))/gmap-2016-09-20/bin'},
+#not use global path_path
+#	  path_plus=>{jgi=>'\$saps_hash(script_root,\$saps_hash(site))/gmap-2016-09-20/bin:\$saps_hash(script_root,\$saps_hash(site))/bin',cig=>'\$saps_hash(script_root,\$saps_hash(site))/bin'},
+
+
+#get splicing and intron stats
+#	  transcript_gff=>'',
+#or using 2 alignments
+#         longest_cds_gff=>'',
+#         alignment_gff=>'',
+
+
+#       script_root=>{jgi=>'/global/dna/projectdirs/plant/tools/compgen/dev_pipe'},
+
+ }
