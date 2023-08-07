@@ -358,3 +358,7 @@ inactive_transcript=>{default=>'./lowQ.defaultParams.plus.rRNA.simple.repetitive
 !!!!Keep in mind:
 
 #Tomas suggested I need to use the unique name for each run
+
+ Majority of the useful output are here in `DATA`. The polishing/renaming of gff happens when the annotation is finalized (approved by PIs) and ready for release on Phytozome.
+
+The final, more comprehensive functional annotation, is generated later after the annotation is finalized and submitted for release on Phytozome.
