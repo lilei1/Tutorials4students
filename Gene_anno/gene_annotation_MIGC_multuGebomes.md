@@ -168,6 +168,7 @@ The Ilumina RNAseq:
 
 `/global/cfs/cdirs/plantbox/llei/annotation/hybridum/transcriptomes/Illumina/Bstat8`
 
+Bstat7:
 
 #copy the upertran configure file into the current dir:
 ```
@@ -176,7 +177,7 @@ mkdir PERTRAN
 
 cp /global/cfs/cdirs/plantbox/llei/annotation/hybridum/annotation/3-7-2/v1.0t/PERTRAN/upertran.addon.conf . 
 
-# then revise the configure file, the revised configure file can be seen [here]():
+# then revise the configure file, the revised configure file can be seen [here](https://github.com/lilei1/Tutorials4students/blob/main/Gene_anno/configures/Pertran/Bstat7/upertran.addon_perlmutter.txt):
 
 !!!! keep in mind the "-name" should be unique for each strain!!!
 
@@ -244,6 +245,8 @@ nohup ~/saps/scripts/go.sh -d jpa9 -b 173 -wait &> run.log &
 
 ### Bstat8
 
+# copy the configure file from Bstat7 to this dir, then revise the configure file, the revised configure file can be seen [here](https://github.com/lilei1/Tutorials4students/blob/main/Gene_anno/configures/Pertran/Bstat8/upertran.addon_perlmutter.txt):
+
 ```
 nohup ~/saps/scripts/go.sh -d jpa9 -addon ./upertran.addon_perlmutter.conf -name upertran_Bstat8 &> log.config_run &
 
@@ -288,11 +291,11 @@ diff -y bam1 geno
 
 # you need to have three configure files:
 
-- common.igc.spec
+- [common.igc.spec](https://github.com/lilei1/Tutorials4students/blob/main/Gene_anno/configures/migc/common.igc.spec)
 
-- genefilter.spec
+- [genefilter.spec](https://github.com/lilei1/Tutorials4students/blob/main/Gene_anno/configures/migc/genefilter.spec)
 
-- test3strains.migc.spec
+- [test3strains.migc.spec](https://github.com/lilei1/Tutorials4students/blob/main/Gene_anno/configures/migc/test3strains.migc.spec)
 
 #edit them 
 
@@ -310,7 +313,7 @@ diff -y bam1 geno
 
 ##### #run PAV mode for migc!!!
 
-cp test3strains.migc.spec m.test3strains.migc.spec
+cp test3strains.migc.spec [m.test3strains.migc.spec](https://github.com/lilei1/Tutorials4students/blob/main/Gene_anno/configures/migc/m.test3strains.migc.spec)
 
 #then uncommented the lines below:
 
@@ -332,7 +335,7 @@ cp test3strains.migc.spec m.test3strains.migc.spec
 
 ##### run the  inactivation step (filtering the LQ genes):
 
-cp m.test3strains.migc.spec in.test3strains.migc.spec
+cp m.test3strains.migc.spec [in.test3strains.migc.spec](https://github.com/lilei1/Tutorials4students/blob/main/Gene_anno/configures/migc/in.test3strains.migc.spec)
 
 #commented the lines below:
 
