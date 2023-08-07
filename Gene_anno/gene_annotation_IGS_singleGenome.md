@@ -83,7 +83,7 @@ done < <(tr " " "\n" < libs.$spid.txt)
 
 ```
 
-### 2 Map the reads back to the assembled genome. The assembled genome can be avaible when you required from Adam
+### 2 Run PERTRAN: Map the reads back to the assembled genome. The assembled genome can be avaible when you required from Adam
 
 
 #### The reference genome path:
@@ -91,7 +91,7 @@ done < <(tr " " "\n" < libs.$spid.txt)
 
 #### Edit the configure file: `upertran.addon.conf `
 
-#### Run configure 
+#### Run configure
 
 ```
 nohup ~/saps/scripts/go.sh -d jpa8 -addon ./upertran.addon.conf -name upertran &> log.config_run &
