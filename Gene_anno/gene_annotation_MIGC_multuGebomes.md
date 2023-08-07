@@ -330,7 +330,8 @@ cp test3strains.migc.spec [m.test3strains.migc.spec](https://github.com/lilei1/T
 [3] 32425
 ```
 
-##### Actually I need to run the liftoff to double check if the LQ genes are good!!
+##### Actually you need to run the liftoff to double check if the LQ genes are good!! 
+About how to run the liftoff and how to check the genes, you can refer it to [IGC tutorial](https://github.com/lilei1/Tutorials4students/blob/main/Gene_anno/gene_annotation_IGS_singleGenome.md)
 
 
 ##### run the  inactivation step (filtering the LQ genes):
