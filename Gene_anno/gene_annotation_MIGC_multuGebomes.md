@@ -243,9 +243,9 @@ nohup ~/saps/scripts/go.sh -d jpa9 -b 173 -wait &> run.log &
 
 ```
 
-### Bstat8
+###### Bstat8
 
-# copy the configure file from Bstat7 to this dir, then revise the configure file, the revised configure file can be seen [here](https://github.com/lilei1/Tutorials4students/blob/main/Gene_anno/configures/Pertran/Bstat8/upertran.addon_perlmutter.txt):
+###### copy the configure file from Bstat7 to this dir, then revise the configure file, the revised configure file can be seen [here](https://github.com/lilei1/Tutorials4students/blob/main/Gene_anno/configures/Pertran/Bstat8/upertran.addon_perlmutter.txt):
 
 ```
 nohup ~/saps/scripts/go.sh -d jpa9 -addon ./upertran.addon_perlmutter.conf -name upertran_Bstat8 &> log.config_run &
@@ -289,7 +289,7 @@ diff -y bam1 geno
 
 ### 3 run MIGC 1st round
 
-# you need to have three configure files:
+#### you need to have three configure files:
 
 - [common.igc.spec](https://github.com/lilei1/Tutorials4students/blob/main/Gene_anno/configures/migc/common.igc.spec)
 
