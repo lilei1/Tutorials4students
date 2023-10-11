@@ -47,6 +47,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 BiocManager::install(c("Biostrings", "rtracklayer"))
 
 ```
+You need to prepare the primary protein fasta file and gene_exon gff annotation file and names them in each directory 
 6) Run GENESPACE
 
 ```
