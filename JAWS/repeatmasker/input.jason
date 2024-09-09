@@ -1,0 +1,5 @@
+{
+  "RepeatMasker.repeat_lib": "/global/cfs/cdirs/plantbox/annotation/Bsylvaticum/Bsylvaticum.annotv1/repeats.deNovo.AND.grass.MIPS_n_RepBase.Bdistachyon.fa",
+  "RepeatMasker.genomeFasta": "/global/dna/projectdirs/plant/assembly_releases/Brachypodium_sylvaticum/Brachypodium_sylvaticum_McD145475/20220531/Brachypodium_sylvaticum_McD145475/sequences/Brachypodium_sylvaticum_McD145475.mainGenome.fasta",  
+  "RepeatMasker.compgen": "/usr/local/compgen"
+}
