@@ -20,5 +20,17 @@ mkdir ABR137
 cp ./input.json ABR137
 ```
 
-## 4> edit the `input.json`, bascially the firsly 11 lines and last line.
+### 4> edit the `input.json`, bascially the firsly 11 lines and last line.
 
+### 5> run jaws
+
+```
+cd ABR137
+jaws submit /global/cfs/cdirs/plantbox/tbruna/compgen/compute_farm/WDL/IGC.wdl input.json dori 
+```
+### 5> record the job id and check the status later:
+
+```
+ jaws log 91250
+ jaws status 91250
+```
