@@ -1,0 +1,43 @@
+{
+  "IGC.genomeFasta": "/pscratch/sd/m/mcampos/Annotation/Genomes/Bhybridum/ABR137.fasta",
+  "IGC.RM_repeat_gff": "/global/cfs/cdirs/plantbox/llei/JAWS_funcgen/lilei/87046/dd4880c4-3155-45e4-b829-de6a75b130d4/call-transformRptGFF/execution/ABR137.fasta.repeatMasked.gff",
+  "IGC.maskedGenomeFasta": "/global/cfs/cdirs/plantbox/llei/JAWS_funcgen/lilei/87046/dd4880c4-3155-45e4-b829-de6a75b130d4/call-joinMaskedSeq/execution/ABR137.fasta.repeatMasked.fa",
+
+  "IGC.oneWordName":"ABR137",
+  "IGC.species_name": "Brachypodium hybridum var. ABR137",
+  "IGC.annotation_version": "v1.1",
+  "IGC.locusNamePrefix": "ABR137.1d",
+  "IGC.assembly_version": "v1.0",
+  "IGC.taxid": "1071398",
+
+  "IGC.transcriptomeFasta": "/global/cfs/cdirs/plantbox/annotation/Bhybridum/v2.0/annotv2.1/hiConf.transcripts.fa",
+  "IGC.senseTranscriptome": true,
+
+  "IGC.n_chromosome": 10,
+  "IGC.homologySeedFastaFiles": [
+    "/global/dna/projectdirs/plant/data/homology_seeds/Swiss-Prot/uniprot_sprot.eukaryote.2022_04.uni95.fa",
+    "/global/dna/projectdirs/plant/data/homology_seeds/JGI/Paspalum_vaginatum/v3.1/Pvaginatum.v3.1.prot672.hiConf.pep.fa",
+    "/global/dna/projectdirs/plant/data/homology_seeds/JGI/Panicum_hallii.FIL/v3.2/Phallii.FIL.v3.2.prot590.hiConf.pep.fa",
+    "/global/dna/projectdirs/plant/data/homology_seeds/JGI/Zea_mays_NKH8431/v1.2/Zmays.NKH8431.v1.2.prot683.hiconf.pep.fa",
+    "/global/dna/projectdirs/plant/data/homology_seeds/JGI/Sorghum_bicolor/v5.1/Sbicolor.BTx623.v5.1.prot730.hiConf.pep.fa",
+    "/global/dna/projectdirs/plant/data/homology_seeds/JGI/Setaria_viridis/v2.1/Sviridis.v2.1.prot500.hiconf.tr.homol.pep.fa",
+    "/global/dna/projectdirs/plant/data/homology_seeds/JGI/Oryza_sativa/JGI.v7.1b/Osativa.Nipponbare.JGI.v7.1b.GMI.prot535.hiConf.pep.fa",
+    "/global/cfs/cdirs/plantbox/llei/annotation/hybridum/annotation/3-7-2/v1.0t/annotv1.0t/Lrigidum.Atauschii.nr95.fa",
+    "/global/cfs/cdirs/plantbox/llei/annotation/hybridum/annotation/3-7-2/v1.0t/annotv1.0t/Jascendens.Aamericanus.Aofficinalis.Acomosus.Macuminata.Eguineensis.nr95.fa",
+    "/global/dna/projectdirs/plant/data/homology_seeds/JGI/Populus_trichocarpa/v4.1/Ptrichocarpa.v4.1.prot533.hiConf.pep.fa",
+    "/global/dna/projectdirs/plant/data/homology_seeds/JGI/Aquilegia_coerulea/v3.1/Acoerulea.v3.1.prot322.hiconf.pep.fa",
+    "/global/u2/l/llei2019/plantbox/annotation/sylvaticulm/annotation/Srg_1_V1/GC/167.fa",
+    "/global/u2/l/llei2019/plantbox/annotation/sylvaticulm/annotation/Srg_1_V1/GC/457.fa",
+    "/global/u2/l/llei2019/plantbox/annotation/sylvaticulm/annotation/Srg_1_V1/GC/508.fa",
+    "/global/u2/l/llei2019/plantbox/annotation/sylvaticulm/annotation/Srg_1_V1/GC/680.fa",
+    "/global/u2/l/llei2019/plantbox/annotation/sylvaticulm/annotation/Srg_1_V1/GC/690.fa"
+  ],
+  "IGC.targetProteomeFastaForESTorf": "/global/dna/projectdirs/plant/data/homology_seeds/JGI/Oryza_sativa/JGI.v7.1b/Osativa.Nipponbare.JGI.v7.1b.GMI.prot535.hiConf.pep.fa",
+  "IGC.max_seed_intron_len": 10000,
+  "IGC.max_est_intron_len": 25000,
+  "IGC.use_miniprot": false,
+  "IGC.dbConfig": "/global/dna/projectdirs/plant/tools/compgen/conf/db/JGI.conf",
+  "IGC.PAC_database": "PAC4GC",
+  "IGC.fgenesh_param": "Monocots",
+  "IGC.filterSpecFile": "/global/u2/l/llei2019/plantbox/annotation/sylvaticulm/annotation/JAWS_IGC/Ast_1_V1/genefilter.spec"
+}
