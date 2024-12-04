@@ -1,0 +1,18 @@
+{
+   "PTR_Assemble.compgen": "/usr/local/compgen",
+   "PTR_Assemble.isIllumina64": false,
+   "PTR_Assemble.intronLength": 30000,
+   "PTR_Assemble.filterBaseQuality": 17,
+   "PTR_Assemble.genomeFasta": "/pscratch/sd/m/mcampos/Annotation/Genomes/Bhybridum/Bhyb7.fasta",
+   "PTR_Assemble.isSingleEnd": false,
+   "PTR_Assemble.isStranded": true,
+   "PTR_Assemble.gsnap_args": "--gunzip -n 9 -N 1 -w 30000 --novelend-splicedist=30000 -K 18 -l 18 -B 5 --max-mismatches=0.049",
+   "PTR_Assemble.parse_args": "-maxintron 30000 -minimumaligned 0.95 -minimumquality 1 -minimumbasequality 17 -hsplength4realign 20 -realignminintron 800 -gaplength 0 -nhit4repetitive 9 -flipstrand",
+   "PTR_Assemble.assemble_args": "-threshold 1.5 -minintrondepth 5 -minsplicedintrondepth 1 -minmutantsplicedintrondepth 5 -minexonlength 18 -maxintronlength 30000 -maxgaplength 0 -strandedread -minorminratio 0.1",
+   "PTR_Assemble.assemble_args4whole": "-threshold 1.5 -minintrondepth 9 -minsplicedintrondepth 1 -minmutantsplicedintrondepth 5 -minexonlength 18 -maxintronlength 30000 -maxgaplength 0 -strandedread -minorminratio 0.1",
+   "PTR_Assemble.extend_n_merge_args": "-minintronreadthroughexpressionratio 0.9 -intronreadthroughmindepth 10 -wantreadthrough -strandedread -minorminratio 0.1",
+   "PTR_Assemble.n_read_a_job": "2000000",
+   "PTR_Assemble.n_library": 25,
+   "PTR_Assemble.tissueNames": ["nutrition","drought"],
+   "PTR_Assemble.tissue2inputMap": {"nutrition":[["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_1_C.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_2_C.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_3_C.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_4_C.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_1_P.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_2_P.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_3_P.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_4_P.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_1_N.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_2_N.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_3_N.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_4_N.fastq.gz"]],"drought":[["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_1_T1.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_1_T2.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_1_T3.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_2_T1.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_2_T2.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_2_T3.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_3_T1.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_3_T2.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_3_T3.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_4_T1.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_4_T3.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_5_T1.fastq.gz"],["/pscratch/sd/m/mcampos/Annotation/Transcriptomes/Bhybridum/Bhyb7/Bhyb7_6_T1.fastq.gz"]]}
+}
